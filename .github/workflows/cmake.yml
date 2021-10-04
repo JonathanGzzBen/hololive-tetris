@@ -32,6 +32,17 @@ jobs:
     - name: Build
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+      
+    - name: Create Artifact
+      run: |
+        mkdir release
+        cp build/hololive-tetris release
+        cp images release
+    - name: Publish Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: linux-release
+        path: release
 
     #- name: Test
       #working-directory: ${{github.workspace}}/build
