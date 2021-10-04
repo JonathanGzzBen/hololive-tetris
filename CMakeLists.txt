@@ -21,11 +21,7 @@ target_link_libraries(hololive-tetris sfml-graphics sfml-window sfml-system)
 
 # Make symbolink link to run the binary directly from build directory
 set(link_src "${CMAKE_CURRENT_SOURCE_DIR}/images")
-if (UNIX AND NOT APPLE)
-    set(link_dst "${CMAKE_CURRENT_BINARY_DIR}/images")
-else()
-    set(link_dst "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/images")
-endif()
+set(link_dst "${CMAKE_CURRENT_BINARY_DIR}/images")
 
 add_custom_command(
     TARGET hololive-tetris
