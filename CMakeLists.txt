@@ -17,7 +17,7 @@ if (WIN32)
 endif()
 
 
-find_package(SFML 2.5 COMPONENTS graphics window system REQUIREm)
+find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
 
 set(SOURCES
         main.cpp
