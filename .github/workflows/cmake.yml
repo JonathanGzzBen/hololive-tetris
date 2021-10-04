@@ -37,7 +37,7 @@ jobs:
       run: |
         mkdir release
         cp build/hololive-tetris release
-        cp images release
+        cp images -r release
     - name: Publish Artifact
       uses: actions/upload-artifact@v2
       with:
