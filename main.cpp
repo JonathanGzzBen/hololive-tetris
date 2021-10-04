@@ -78,6 +78,10 @@ int main() {
           dx = 1;
         }
       }
+      if (e.type == Event::Resized) {
+        sf::FloatRect visibleArea(0, 0, e.size.width, e.size.height);
+        window.setView(sf::View(visibleArea));
+      }
     }
 
     if (Keyboard::isKeyPressed(Keyboard::Down)) {
