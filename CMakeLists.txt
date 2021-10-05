@@ -3,12 +3,21 @@ cmake_minimum_required(VERSION 3.1)
 project(hololive-tetris)
 
 if (WIN32)
+    set(SFML_DOWNLOAD_URL "https://www.sfml-dev.org/files/SFML-2.5.1-windows-gcc-7.3.0-mingw-64-bit.zip")
+    set(SFML_DOWNLOAD_PATH "${CMAKE_CURRENT_BINARY_DIR}/sfml-download/SFML-2.5.1.zip")
+    set(SFML_EXTRACTED "${CMAKE_CURRENT_SOURCE_DIR}")
+
+    if (NOT EXISTS ${SFML_DOWNLOAD_PATH})
+        file(DOWNLOAD "${SFML_DOWNLOAD_URL}" "${SFML_DOWNLOAD_PATH}")
+    endif()
+
+    file(ARCHIVE_EXTRACT INPUT "${SFML_DOWNLOAD_PATH}" DESTINATION "${SFML_EXTRACTED}")
     set(SFML_DIR "${CMAKE_CURRENT_SOURCE_DIR}/SFML-2.5.1/lib/cmake/SFML")
     set(SFML_STATIC_LIBRARIES TRUE)
 endif()
 
 
-find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
+find_package(SFML 2.5 COMPONENTS graphics window system REQUIREm)
 
 set(SOURCES
         main.cpp
