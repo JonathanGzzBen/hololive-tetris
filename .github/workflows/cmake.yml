@@ -41,7 +41,7 @@ jobs:
       
     - name: Create Artifact
       run: |
-        mkdir release
+        mkdir ${{matrix.os}}-release
         echo "Files in build directory"
         ls build
         cp build/hololive-tetris* ${{matrix.os}}-release
