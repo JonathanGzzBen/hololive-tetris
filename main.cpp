@@ -1,6 +1,10 @@
 #include <time.h>
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Color.hpp>
+#include <SFML/Graphics/Text.hpp>
+#include <iostream>
+#include <string>
 
 using namespace sf;
 
@@ -55,6 +59,18 @@ int main() {
   int colorNum = 1;
   float timer = 0;
   float delay = 0.3;
+  int points = 0;
+
+  sf::Font pointsFont;
+  if (!pointsFont.loadFromFile("fonts/stocky/stocky.ttf")) {
+    std::cerr << "Could not load font" << std::endl;
+  }
+  sf::Text pointsText;
+  pointsText.setCharacterSize(48);
+  pointsText.setFillColor(sf::Color::Blue);
+  pointsText.setPosition(50, 400);
+  pointsText.setString(std::to_string(points));
+  pointsText.setFont(pointsFont);
 
   Clock clock;
 
@@ -140,6 +156,7 @@ int main() {
     }
 
     // Check lines
+    int lines_cleared{0};
     int k{PlayfieldWidth - 1};
     for (int i{PlayfieldWidth - 1}; i > 0; i--) {
       int count{0};
@@ -151,7 +168,13 @@ int main() {
       }
       if (count < PlayfieldHeight) {
         k--;
+      } else {
+        lines_cleared++;
       }
+    }
+    if (lines_cleared > 0) {
+      points += 100 * (lines_cleared * lines_cleared);
+      pointsText.setString(std::to_string(points));
     }
 
     dx = 0;
@@ -183,6 +206,7 @@ int main() {
       window.draw(s);
     }
     window.draw(frameSprite);
+    window.draw(pointsText);
     window.display();
   }
 
