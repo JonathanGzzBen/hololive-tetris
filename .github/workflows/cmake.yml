@@ -42,6 +42,8 @@ jobs:
     - name: Create Artifact
       run: |
         mkdir release
+        echo "Files in build directory"
+        ls build
         cp build/hololive-tetris release
         cp images -r release
     - name: Publish Artifact
