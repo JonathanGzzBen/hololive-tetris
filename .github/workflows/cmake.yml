@@ -17,13 +17,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest]
-        generator: ["Unix Makefiles", "MinGW Makefiles"]
         include:
-          - os: windows-latest
-            triplet: x64-windows
           - os: ubuntu-latest
-            triplet: x64-linux
+            generator: "Unix Makefiles"
+          - os: windows-latest
+            generator: "MinGW Makefiles"
     steps:
     - uses: actions/checkout@v2
     
