@@ -44,13 +44,13 @@ jobs:
         mkdir release
         echo "Files in build directory"
         ls build
-        cp build/hololive-tetris* release
-        cp images -r release
+        cp build/hololive-tetris* ${{matrix.os}}-release
+        cp images -r ${{matrix.os}}-release
     - name: Publish Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: linux-release
-        path: release
+        name: ${{matrix.os}}-release
+        path: ${{matrix.os}}-release
 
     #- name: Test
       #working-directory: ${{github.workspace}}/build
