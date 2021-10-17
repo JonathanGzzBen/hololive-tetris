@@ -17,7 +17,7 @@ if (WIN32)
 endif()
 
 
-find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
+find_package(SFML 2.5 COMPONENTS graphics window system audio REQUIRED)
 
 set(SOURCES
         main.cpp
@@ -26,7 +26,7 @@ set(SOURCES
 
 add_executable(hololive-tetris ${SOURCES})
 
-target_link_libraries(hololive-tetris sfml-graphics sfml-window sfml-system)
+target_link_libraries(hololive-tetris sfml-graphics sfml-window sfml-system sfml-audio)
 
 # Make symbolink link to run the binary directly from build directory
 set(link_src "${CMAKE_CURRENT_SOURCE_DIR}/images")
@@ -38,5 +38,12 @@ add_custom_command(
         -E create_symlink ${link_src} ${link_dst}
     DEPENDS ${link_dst}
     COMMENT "Symbolic link ${link_src} => ${link_dst}"
+)
+
+add_custom_command(
+    TARGET hololive-tetris
+    POST_BUILD COMMAND ${CMAKE_COMMAND}
+    -E create_symlink "${CMAKE_CURRENT_SOURCE_DIR}/sounds" "${CMAKE_CURRENT_BINARY_DIR}/sounds"
+    DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/sounds"
 )
 
