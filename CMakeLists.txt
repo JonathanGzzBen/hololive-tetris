@@ -32,6 +32,9 @@ target_link_libraries(hololive-tetris sfml-graphics sfml-window sfml-system sfml
 set(link_src "${CMAKE_CURRENT_SOURCE_DIR}/images")
 set(link_dst "${CMAKE_CURRENT_BINARY_DIR}/images")
 
+set(fonts_src "${CMAKE_CURRENT_SOURCE_DIR}/fonts")
+set(fonts_dst "${CMAKE_CURRENT_BINARY_DIR}/fonts")
+
 add_custom_command(
     TARGET hololive-tetris
     POST_BUILD COMMAND ${CMAKE_COMMAND}
@@ -45,5 +48,13 @@ add_custom_command(
     POST_BUILD COMMAND ${CMAKE_COMMAND}
     -E create_symlink "${CMAKE_CURRENT_SOURCE_DIR}/sounds" "${CMAKE_CURRENT_BINARY_DIR}/sounds"
     DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/sounds"
+)
+
+add_custom_command(
+    TARGET hololive-tetris
+    POST_BUILD COMMAND ${CMAKE_COMMAND}
+    -E create_symlink ${fonts_src} ${fonts_dst}
+    DEPENDS ${link_dst}
+    COMMENT "Symbolic link ${fonts_src} => ${fonts_dst}"
 )
 
