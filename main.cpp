@@ -1,8 +1,12 @@
 #include <time.h>
 
+#include <SFML/Audio.hpp>
+#include <SFML/Audio/Sound.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Text.hpp>
+
 #include <iostream>
 #include <string>
 
@@ -11,6 +15,7 @@ using namespace sf;
 const int PlayfieldWidth = 20;
 const int PlayfieldHeight = 10;
 const int NumBlocksFigure = 4;
+const int NumberOfColors = 7;
 
 int field[PlayfieldWidth][PlayfieldHeight] = {0};
 
@@ -28,6 +33,14 @@ int figures[7][4] = {
     2, 3, 4, 5,  // O
 };
 
+sf::SoundBuffer line_clear_sounds_buffers[NumberOfColors];
+
+std::string line_clear_sounds[NumberOfColors] = {
+    "aqua_qua.wav", "ahoy.wav",     "pekopeko.wav", "aqua_qua.wav",
+    "pekopeko.wav", "aqua_qua.wav", "ahoy.wav",
+};
+sf::Sound line_cleared_sound;
+
 bool isValidPosition() {
   for (int i{0}; i < NumBlocksFigure; i++) {
     if (pA[i].x < 0 || pA[i].x >= PlayfieldHeight ||
@@ -42,6 +55,13 @@ bool isValidPosition() {
 
 int main() {
   srand(time(0));
+
+  for (int i{0}; i < NumberOfColors; i++) {
+    if (!line_clear_sounds_buffers[i].loadFromFile("sounds/" +
+                                                   line_clear_sounds[i])) {
+      std::cout << "Could not load sound file: " << line_clear_sounds[i];
+    }
+  }
 
   RenderWindow window(VideoMode(320, 480), "The Game!");
 
@@ -145,7 +165,7 @@ int main() {
         }
 
         // Get next figure color/shape
-        colorNum = 1 + rand() % 7;
+        colorNum = 1 + (rand() % NumberOfColors);
         int n = rand() % 7;
         for (int i{0}; i < NumBlocksFigure; i++) {
           pA[i].x = figures[n][i] % 2;
@@ -169,6 +189,11 @@ int main() {
       if (count < PlayfieldHeight) {
         k--;
       } else {
+        // Line is cleared
+        line_cleared_sound.setBuffer(line_clear_sounds_buffers[colorNum - 1]);
+        line_cleared_sound.play();
+        std::cout << "line cleared, reproduce sound: "
+                  << line_clear_sounds[colorNum - 1] << std::endl;
         lines_cleared++;
       }
     }
